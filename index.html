@@ -322,9 +322,52 @@
             text-align: center;
             padding: 4.5rem 2rem 5rem 2rem;
             color: var(--text-light);
-            font-size: 0.78rem;
-            letter-spacing: 1.5px;
             border-top: 1px solid var(--rule);
+        }
+
+        .footer-contact {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.6rem;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-contact a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            padding-bottom: 3px;
+            border-bottom: 1px solid transparent;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .footer-contact a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .footer-dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--rule);
+            display: inline-block;
+        }
+
+        footer .copyright {
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .footer-contact { gap: 1rem; }
+            .footer-dot { display: none; }
         }
 
         @media (max-width: 600px) {
@@ -450,7 +493,14 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Renato Aldrighi. Estúdio de Design Editorial.</p>
+        <div class="footer-contact">
+            <a href="mailto:renato.aldrighi@gmail.com">renato.aldrighi@gmail.com</a>
+            <span class="footer-dot"></span>
+            <a href="https://wa.me/5516992649435" target="_blank" rel="noopener">WhatsApp · (16) 99264-9435</a>
+            <span class="footer-dot"></span>
+            <a href="https://www.linkedin.com/in/renato-aldrighi-113286403/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <p class="copyright">&copy; 2026 Renato Aldrighi. Estúdio de Design Editorial.</p>
     </footer>
 
     <script>
