@@ -13,7 +13,6 @@
             --text-main: #222222;
             --text-light: #555555;
             --accent: #a39171;
-            --line-color: #d1bfae;
         }
 
         body {
@@ -30,86 +29,34 @@
             font-weight: 300;
         }
 
-        /* Estrutura do Topo baseada no rascunho */
-        .site-header {
-            max-width: 1000px;
-            margin: 6rem auto 3rem auto;
+        header {
+            text-align: center;
+            max-width: 680px;
+            margin: 7rem auto 5rem auto;
             padding: 0 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4rem;
         }
 
-        .header-left {
-            text-align: left;
-            flex: 1;
-        }
-
-        .header-left h1 {
-            font-size: 3.8rem;
-            margin: 0 0 0.3rem 0;
+        header h1 {
+            font-size: 4.5rem;
+            margin: 0 0 0.5rem 0;
             color: var(--text-main);
-            letter-spacing: 1.5px;
-            line-height: 1.1;
+            letter-spacing: 2px;
         }
 
-        .header-left .subtitle {
-            font-size: 0.85rem;
+        header p.subtitle {
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             color: var(--accent);
-            margin: 0;
+            margin-bottom: 3rem;
             font-weight: 400;
-        }
-
-        .header-divider {
-            width: 1px;
-            height: 100px;
-            background-color: var(--line-color);
-        }
-
-        .header-right {
-            flex: 1.2;
         }
 
         .bio-text {
             color: var(--text-light);
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 300;
-            line-height: 1.8;
-            margin: 0;
-        }
-
-        /* Linha divisória horizontal principal */
-        .section-divider {
-            max-width: 1100px;
-            border: none;
-            border-top: 1px solid var(--line-color);
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-
-        /* Título do Portfólio */
-        .portfolio-header-container {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .portfolio-main-title {
-            font-size: 2.2rem;
-            color: var(--text-main);
-            margin: 0 0 0.4rem 0;
-            letter-spacing: 2px;
-        }
-
-        .portfolio-subtitle-note {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--text-light);
-            font-weight: 300;
-            margin: 0;
+            line-height: 1.9;
         }
 
         .portfolio-section {
@@ -121,7 +68,7 @@
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 6rem 4rem;
+            gap: 7rem 4rem;
         }
 
         .book-item {
@@ -131,6 +78,7 @@
             text-align: center;
         }
 
+        /* Container da Capa limpo e responsivo */
         .book-cover {
             width: 100%;
             max-width: 240px;
@@ -138,14 +86,14 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.08);
             transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s ease;
             cursor: zoom-in;
-            display: block;
+            display: block; /* Remove espaços em branco laterais causados pelo flexbox anterior */
         }
 
         .book-cover img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 2px;
+            border-radius: 2px; /* Cantos levemente arredondados para um acabamento premium */
         }
 
         .book-item:hover .book-cover {
@@ -202,6 +150,7 @@
             font-weight: 400;
         }
 
+        /* Modal Lightbox Melhorado */
         #lightbox {
             display: none;
             position: fixed;
@@ -235,42 +184,18 @@
             letter-spacing: 1.5px;
             border-top: 1px solid #eee;
         }
-
-        @media (max-width: 768px) {
-            .site-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 2rem;
-            }
-            .header-left {
-                text-align: center;
-            }
-            .header-divider {
-                width: 70px;
-                height: 1px;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="header-left">
-            <h1>Renato Aldrighi</h1>
-            <p class="subtitle">Design Editorial</p>
-        </div>
-        <div class="header-divider"></div>
-        <div class="header-right">
-            <p class="bio-text">Com vasta experiência em editoração, transformo o conteúdo bruto em livros, revistas e artigos científicos de alto padrão[cite: 1]. Meu foco está em unir o rigor estético do projeto gráfico à precisão e otimização dos fluxos de diagramação[cite: 1].</p>
+    <header>
+        <h1>Renato Aldrighi</h1>
+        <p class="subtitle">Design Editorial</p>
+        
+        <div class="bio-text">
+            <p>Com vasta experiência em editoração, transformo o conteúdo bruto em livros, revistas e artigos científicos de alto padrão. Meu foco está em unir o rigor estético do projeto gráfico à precisão e otimização dos fluxos de diagramação.</p>
         </div>
     </header>
-
-    <hr class="section-divider">
-
-    <div class="portfolio-header-container">
-        <h2 class="portfolio-main-title">Portfólio</h2>
-        <p class="portfolio-subtitle-note">Alguns projetos selecionados</p>
-    </div>
 
     <section class="portfolio-section">
         <div class="portfolio-grid">
