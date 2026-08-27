@@ -4,65 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renato Aldrighi | Design Editorial</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
-    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-color: #faf9f5;
-            --text-main: #222222;
-            --text-light: #555555;
-            --accent: #a39171;
+            --bg: #f4eee0;
+            --bg-card: #faf6ea;
+            --text-main: #221b12;
+            --text-light: #6b5d47;
+            --accent: #7a2e22;       /* oxblood */
+            --accent-soft: #a3854f;  /* ouro velho */
+            --rule: #d9cba8;
+            --shadow: 34, 24, 12;
         }
 
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
             color: var(--text-main);
             margin: 0;
             padding: 0;
             line-height: 1.7;
+            position: relative;
+        }
+
+        /* textura sutil de papel/grão sobre todo o fundo */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+            mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.13  0 0 0 0 0.1  0 0 0 0 0.06  0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* leve vinheta radial para dar profundidade sem escurecer o conjunto */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(122, 46, 34, 0.05), transparent 55%);
+        }
+
+        header, .portfolio-section, footer {
+            position: relative;
+            z-index: 1;
         }
 
         h1, h2, h3, .serif {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
+            font-family: 'Fraunces', serif;
+            font-weight: 400;
         }
 
         header {
             text-align: center;
-            max-width: 680px;
-            margin: 7rem auto 5rem auto;
+            max-width: 780px;
+            margin: 6rem auto 5rem auto;
             padding: 0 2rem;
         }
 
+        .masthead-rule {
+            width: 64px;
+            height: 2px;
+            background: var(--accent);
+            margin: 0 auto 1.6rem auto;
+        }
+
         header h1 {
-            font-size: 4.5rem;
-            margin: 0 0 0.5rem 0;
+            font-size: 4.4rem;
+            font-weight: 500;
+            margin: 0 0 0.4rem 0;
             color: var(--text-main);
-            letter-spacing: 2px;
+            letter-spacing: 0.5px;
         }
 
         header p.subtitle {
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 5px;
             color: var(--accent);
-            margin-bottom: 3rem;
-            font-weight: 400;
+            margin-bottom: 3.2rem;
+            font-weight: 600;
         }
 
         .bio-text {
             color: var(--text-light);
-            font-size: 1.05rem;
-            font-weight: 300;
-            line-height: 1.9;
+            font-size: 0.98rem;
+            font-weight: 400;
+            line-height: 1.75;
+            margin: 0;
+            text-align: left;
+        }
+
+        .bio-topics {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bio-topics li {
+            margin-bottom: 1.6rem;
+            padding-left: 1.7rem;
+            position: relative;
+        }
+
+        .bio-topics li:last-child {
+            margin-bottom: 0;
+        }
+
+        .bio-topics li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--accent);
+            font-size: 0.95rem;
+        }
+
+        .bio-topics strong {
+            display: block;
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-main);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            line-height: 1.25;
         }
 
         .portfolio-section {
             max-width: 1200px;
             margin: 0 auto 6rem auto;
             padding: 0 2rem;
+        }
+
+        .section-eyebrow {
+            text-align: center;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent-soft);
+            font-weight: 600;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-eyebrow::before,
+        .section-eyebrow::after {
+            content: "";
+            display: inline-block;
+            width: 28px;
+            height: 1px;
+            background: var(--rule);
+            vertical-align: middle;
+            margin: 0 12px 3px 12px;
         }
 
         .portfolio-grid {
@@ -78,33 +183,35 @@
             text-align: center;
         }
 
-        /* Container da Capa limpo e responsivo */
         .book-cover {
             width: 100%;
             max-width: 240px;
             margin-bottom: 2rem;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s ease;
+            background: var(--bg-card);
+            padding: 10px;
+            border: 1px solid var(--rule);
+            box-shadow: 0 18px 38px rgba(var(--shadow), 0.14);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
             cursor: zoom-in;
-            display: block; /* Remove espaços em branco laterais causados pelo flexbox anterior */
+            display: block;
         }
 
         .book-cover img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 2px; /* Cantos levemente arredondados para um acabamento premium */
         }
 
         .book-item:hover .book-cover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 28px 55px rgba(var(--shadow), 0.22);
+            border-color: var(--accent-soft);
         }
 
         .miolo-gallery {
             display: flex;
             gap: 10px;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.9rem;
             justify-content: center;
             flex-wrap: wrap;
             max-width: 280px;
@@ -113,11 +220,11 @@
         .miolo-page {
             width: 65px;
             height: auto;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            background-color: var(--bg-card);
+            box-shadow: 0 4px 12px rgba(var(--shadow), 0.1);
             cursor: zoom-in;
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 1px solid #eaeaea;
+            border: 1px solid var(--rule);
         }
 
         .miolo-page img {
@@ -130,27 +237,26 @@
             transform: scale(3.5) translateY(-5px);
             z-index: 10;
             position: relative;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.2);
-            border-color: #fff;
+            box-shadow: 0 22px 50px rgba(var(--shadow), 0.28);
+            border-color: var(--accent-soft);
         }
 
         .book-title {
-            font-size: 1.6rem;
+            font-size: 1.55rem;
             margin: 0 0 0.6rem 0;
-            line-height: 1.25;
+            line-height: 1.28;
             color: var(--text-main);
             font-weight: 400;
         }
 
         .book-role {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             text-transform: uppercase;
             letter-spacing: 2.5px;
-            color: #888;
-            font-weight: 400;
+            color: var(--accent-soft);
+            font-weight: 600;
         }
 
-        /* Modal Lightbox Melhorado */
         #lightbox {
             display: none;
             position: fixed;
@@ -158,7 +264,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(20, 20, 20, 0.95);
+            background: rgba(18, 14, 10, 0.95);
             z-index: 9999;
             align-items: center;
             justify-content: center;
@@ -173,33 +279,57 @@
             max-height: 90vh;
             object-fit: contain;
             box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         footer {
             text-align: center;
-            padding: 5rem 2rem;
-            color: #999;
-            font-size: 0.8rem;
+            padding: 4.5rem 2rem 5rem 2rem;
+            color: var(--text-light);
+            font-size: 0.78rem;
             letter-spacing: 1.5px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--rule);
+        }
+
+        @media (max-width: 600px) {
+            header { margin: 4rem auto 3.5rem auto; }
+            header h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
     <header>
+        <div class="masthead-rule"></div>
         <h1>Renato Aldrighi</h1>
         <p class="subtitle">Design Editorial</p>
-        
+
         <div class="bio-text">
-            <p>Com vasta experiência em editoração, transformo o conteúdo bruto em livros, revistas e artigos científicos de alto padrão. Meu foco está em unir o rigor estético do projeto gráfico à precisão e otimização dos fluxos de diagramação.</p>
+            <ul class="bio-topics">
+                <li>
+                    <strong>Da Matéria Bruta à Obra Publicada</strong>
+                    Com vasta experiência em editoração desde 2014, atuo na transformação de conteúdos complexos em livros, revistas e artigos científicos de alto padrão.
+                </li>
+                <li>
+                    <strong>Sinergia entre Estética e Técnica</strong>
+                    Meu foco une o rigor estético do projeto gráfico à precisão e otimização dos fluxos de diagramação, garantindo publicações visualmente marcantes e tecnicamente impecáveis.
+                </li>
+                <li>
+                    <strong>Tradição e Inovação no Fluxo Editorial</strong>
+                    Especialista em automação de processos — utilizando ferramentas avançadas como scripts, macros e GREP no Adobe InDesign e Microsoft Word —, reduzo prazos operacionais sem abrir mão da excelência tipográfica.
+                </li>
+                <li>
+                    <strong>Expertise Científica e Liderança</strong>
+                    Com um histórico que inclui 6 anos de atuação coordenando a diagramação em uma editora especializada em artigos científicos, compreendo a complexidade e o rigor do conteúdo acadêmico, o que me permite dialogar com autores e pesquisadores para entregar um design que respeita e eleva a narrativa da obra.
+                </li>
+            </ul>
         </div>
     </header>
 
     <section class="portfolio-section">
+        <p class="section-eyebrow">Trabalhos Selecionados</p>
         <div class="portfolio-grid">
-            
+
             <article class="book-item">
                 <div class="book-cover">
                     <img src="BIC_CAPA.png" alt="Capa Bicentenário" onerror="this.parentElement.style.display='none'">
