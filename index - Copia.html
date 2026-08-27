@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 3D de Livro - Realista</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #e8ecef; font-family: sans-serif; }
+        
+        #ui-container { 
+            position: absolute; top: 20px; left: 20px; background: rgba(255, 255, 255, 0.95); 
+            padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            z-index: 10; width: 280px; max-height: 90vh; overflow-y: auto;
+        }
+
+        h3 { margin: 0 0 15px 0; font-size: 1.1rem; color: #222; }
+        
+        .control-group { margin-bottom: 18px; }
+        .control-group label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 8px; color: #444; }
+        .control-group input[type="file"] { width: 100%; font-size: 0.8rem; }
+        .control-group input[type="range"] { width: 100%; cursor: pointer; }
+        .control-group input[type="color"] { width: 100%; height: 35px; cursor: pointer; border: none; padding: 0; border-radius: 4px; }
+        
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .btn-grid button { 
+            padding: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; 
+            background: #f1f3f5; color: #333; border: 1px solid #ced4da; 
+            border-radius: 6px; transition: all 0.2s ease;
+        }
+        .btn-grid button:hover { background: #e2e6ea; border-color: #adb5bd; }
+        .btn-grid button.active { background: #0d6efd; color: white; border-color: #0b5ed7; }
+
+        #canvas-container { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+
+    <div id="ui-container">
+        <h3>Mockup Interativo</h3>
+        
+        <div class="control-group">
+            <label>1. Imagem da Capa:</label>
+            <input type="file" id="cover-upload" accept="image/png, image/jpeg">
+        </div>
+
+        <div class="control-group">
+            <label>2. Posição do Livro:</label>
+            <div class="btn-grid">
+                <button id="pos-standing" class="active">Em Pé</button>
+                <button id="pos-laying">Deitado</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>3. Espessura:</label>
+            <input type="range" id="thickness-slider" min="0.2" max="2" step="0.1" value="0.7">
+        </div>
+
+        <div class="control-group">
+            <label>4. Cor da Lombada/Fundo:</label>
+            <input type="color" id="spine-color" value="#1a1a1a">
+        </div>
+
+        <div class="control-group">
+            <label>5. Câmeras Rápidas:</label>
+            <div class="btn-grid">
+                <button id="cam-front">Frente</button>
+                <button id="cam-angle">Ângulo</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // Cena básica
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xe8ecef); // Fundo mais suave e neutro
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Sombras suaves
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Iluminação Suave (Estilo Estúdio)
+        // HemisphereLight mistura uma cor vinda de cima (céu) com uma de baixo (chão)
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x888899, 0.7);
+        scene.add(hemiLight);
+
+        // Luz principal mais difusa e com sombra de raio maior
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(6, 12, 8);
+        dirLight.castShadow = true;
+        dirLight.shadow.mapSize.width = 2048;
+        dirLight.shadow.mapSize.height = 2048;
+        dirLight.shadow.camera.near = 0.1;
+        dirLight.shadow.camera.far = 50;
+        dirLight.shadow.camera.left = -10;
+        dirLight.shadow.camera.right = 10;
+        dirLight.shadow.camera.top = 10;
+        dirLight.shadow.camera.bottom = -10;
+        dirLight.shadow.bias = -0.0005;
+        dirLight.shadow.radius = 8; // Deixa a borda da sombra borrada/suave
+        scene.add(dirLight);
+
+        // Gerador do Vinco/Canaleta (Bump Map)
+        function createCreaseBumpMap() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512; canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            
+            // Fundo neutro (sem relevo)
+            ctx.fillStyle = '#808080'; 
+            ctx.fillRect(0, 0, 512, 512);
+
+            // Desenha a canaleta perto da borda esquerda (X entre 12 e 26)
+            const gradient = ctx.createLinearGradient(12, 0, 26, 0);
+            gradient.addColorStop(0, '#808080'); // Nível normal
+            gradient.addColorStop(0.3, '#333333'); // Afunda
+            gradient.addColorStop(0.7, '#cccccc'); // Borda alta
+            gradient.addColorStop(1, '#808080'); // Volta ao normal
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(12, 0, 14, 512);
+
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // Textura procedural de papel
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = 4; pageCanvas.height = 64;
+        const ctx = pageCanvas.getContext('2d');
+        ctx.fillStyle = '#fdfdfb'; ctx.fillRect(0, 0, 4, 64);
+        for(let i=0; i<64; i+=3) { ctx.fillStyle = '#e8e8e4'; ctx.fillRect(0, i, 4, 1); }
+        const pageTexture = new THREE.CanvasTexture(pageCanvas);
+        pageTexture.wrapS = THREE.RepeatWrapping; pageTexture.wrapT = THREE.RepeatWrapping;
+        pageTexture.repeat.set(1, 15);
+
+        // Materiais
+        const bumpTexture = createCreaseBumpMap();
+        const coverMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x333333, 
+            roughness: 0.3,
+            bumpMap: bumpTexture,
+            bumpScale: 0.02 // Intensidade do vinco
+        });
+        const pageMaterial = new THREE.MeshStandardMaterial({ map: pageTexture, roughness: 0.8 });
+        const spineMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.4 });
+
+        // Grupo principal que segura o livro (Facilita rotacionar para deitar/levantar)
+        const bookGroup = new THREE.Group();
+        scene.add(bookGroup);
+        
+        let bookMesh;
+        let currentAspect = 0.65;
+        let currentThickness = 0.7;
+        let isLayingDown = false;
+        const baseHeight = 6.0;
+
+        function createBook(aspect, thickness) {
+            if (bookMesh) {
+                bookGroup.remove(bookMesh);
+                bookMesh.geometry.dispose();
+            }
+            currentThickness = thickness;
+            const width = baseHeight * aspect;
+            const geometry = new THREE.BoxGeometry(width, baseHeight, thickness);
+            const materials = [
+                pageMaterial,  // Direita (Páginas)
+                spineMaterial, // Esquerda (Lombada)
+                pageMaterial,  // Cima (Páginas)
+                pageMaterial,  // Baixo (Páginas)
+                coverMaterial, // Frente (Capa com o vinco)
+                spineMaterial  // Trás (Contracapa)
+            ];
+            bookMesh = new THREE.Mesh(geometry, materials);
+            bookMesh.castShadow = true;
+            bookMesh.receiveShadow = true;
+            bookGroup.add(bookMesh);
+            updateBookPosition();
+        }
+
+        function updateBookPosition() {
+            if (isLayingDown) {
+                // Rotaciona 90 graus para trás. O eixo Y muda para compensar a espessura.
+                bookGroup.rotation.set(-Math.PI / 2, 0, 0);
+                bookGroup.position.set(0, currentThickness / 2, 0);
+            } else {
+                // Posição em pé padrão
+                bookGroup.rotation.set(0, 0, 0);
+                bookGroup.position.set(0, baseHeight / 2, 0);
+            }
+        }
+
+        createBook(currentAspect, currentThickness);
+
+        // Chão invisível para capturar a sombra suave
+        const floorGeo = new THREE.PlaneGeometry(200, 200);
+        const floorMat = new THREE.ShadowMaterial({ opacity: 0.08 }); // Sombra mais clara
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        // --- INTERAÇÕES DA UI --- //
+
+        const textureLoader = new THREE.TextureLoader();
+        document.getElementById('cover-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const imgUrl = URL.createObjectURL(file);
+                const img = new Image();
+                img.onload = function() {
+                    currentAspect = img.width / img.height;
+                    createBook(currentAspect, currentThickness);
+                    
+                    textureLoader.load(imgUrl, function(texture) {
+                        texture.colorSpace = THREE.SRGBColorSpace;
+                        coverMaterial.map = texture;
+                        coverMaterial.color.setHex(0xffffff);
+                        coverMaterial.needsUpdate = true;
+                    });
+                }
+                img.src = imgUrl;
+            }
+        });
+
+        document.getElementById('thickness-slider').addEventListener('input', (e) => {
+            createBook(currentAspect, parseFloat(e.target.value));
+        });
+
+        document.getElementById('spine-color').addEventListener('input', (e) => {
+            spineMaterial.color.set(e.target.value);
+        });
+
+        // Alternar Posições
+        const btnStanding = document.getElementById('pos-standing');
+        const btnLaying = document.getElementById('pos-laying');
+
+        btnStanding.onclick = () => {
+            isLayingDown = false;
+            updateBookPosition();
+            btnStanding.classList.add('active');
+            btnLaying.classList.remove('active');
+        };
+
+        btnLaying.onclick = () => {
+            isLayingDown = true;
+            updateBookPosition();
+            btnLaying.classList.add('active');
+            btnStanding.classList.remove('active');
+        };
+
+        // Câmeras Fixas
+        function setCamera(x, y, z) {
+            camera.position.set(x, y, z);
+            controls.target.set(0, baseHeight/3, 0);
+            controls.update();
+        }
+        document.getElementById('cam-front').onclick = () => setCamera(0, baseHeight/2, 12);
+        document.getElementById('cam-angle').onclick = () => setCamera(7, 6, 9);
+
+        setCamera(7, 6, 9); // Inicial
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
