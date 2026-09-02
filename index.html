@@ -33,9 +33,10 @@
             padding: 0;
             line-height: 1.7;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* textura sutil de papel/grão sobre todo o fundo */
+        /* Textura sutil de papel/grão sobre todo o fundo */
         body::before {
             content: "";
             position: fixed;
@@ -47,7 +48,7 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.13  0 0 0 0 0.1  0 0 0 0 0.06  0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* leve vinheta radial para dar profundidade sem escurecer o conjunto */
+        /* Leve vinheta radial para dar profundidade */
         body::after {
             content: "";
             position: fixed;
@@ -67,6 +68,20 @@
             font-weight: 400;
         }
 
+        /* --- Animações de Scroll --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Cabeçalho --- */
         header {
             max-width: 1200px;
             margin: 7rem auto 6.5rem auto;
@@ -128,21 +143,6 @@
             padding-top: 0.3rem;
         }
 
-        @media (max-width: 760px) {
-            .header-grid {
-                grid-template-columns: 1fr;
-                row-gap: 2.5rem;
-            }
-            .header-divider {
-                width: 100%;
-                height: 1px;
-            }
-            .header-left {
-                position: static;
-                text-align: left;
-            }
-        }
-
         .bio-topics {
             list-style: none;
             padding: 0;
@@ -179,6 +179,7 @@
             line-height: 1.25;
         }
 
+        /* --- Portfólio --- */
         .portfolio-section {
             max-width: 1200px;
             margin: 0 auto 6rem auto;
@@ -228,7 +229,7 @@
             border: 1px solid var(--rule);
             box-shadow: 0 18px 38px rgba(var(--shadow), 0.14);
             transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
-            cursor: zoom-in;
+            cursor: pointer;
             display: block;
         }
 
@@ -258,8 +259,8 @@
             height: auto;
             background-color: var(--bg-card);
             box-shadow: 0 4px 12px rgba(var(--shadow), 0.1);
-            cursor: zoom-in;
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease;
             border: 1px solid var(--rule);
         }
 
@@ -270,11 +271,9 @@
         }
 
         .miolo-page:hover {
-            transform: scale(3.5) translateY(-5px);
-            z-index: 10;
-            position: relative;
-            box-shadow: 0 22px 50px rgba(var(--shadow), 0.28);
+            transform: translateY(-5px);
             border-color: var(--accent-soft);
+            box-shadow: 0 12px 24px rgba(var(--shadow), 0.2);
         }
 
         .book-title {
@@ -293,6 +292,7 @@
             font-weight: 600;
         }
 
+        /* --- Lightbox / Carrossel --- */
         #lightbox {
             display: none;
             position: fixed;
@@ -304,20 +304,73 @@
             z-index: 9999;
             align-items: center;
             justify-content: center;
-            cursor: zoom-out;
-            padding: 2rem;
-            box-sizing: border-box;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
         #lightbox img {
-            max-width: 90%;
-            max-height: 90vh;
+            max-width: 85%;
+            max-height: 85vh;
             object-fit: contain;
             box-shadow: 0 25px 60px rgba(0,0,0,0.6);
             border-radius: 2px;
+            user-select: none;
+            transition: opacity 0.3s ease;
         }
 
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        #lightbox-prev { left: 30px; }
+        #lightbox-next { right: 30px; }
+
+        #lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: transparent;
+            color: #fff;
+            border: none;
+            font-size: 2.5rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        #lightbox-close:hover {
+            transform: scale(1.2);
+            color: var(--rule);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        /* --- Footer --- */
         footer {
             text-align: center;
             padding: 4.5rem 2rem 5rem 2rem;
@@ -365,20 +418,38 @@
             margin: 0;
         }
 
-        @media (max-width: 600px) {
-            .footer-contact { gap: 1rem; }
-            .footer-dot { display: none; }
+        /* --- Responsividade --- */
+        @media (max-width: 760px) {
+            .header-grid {
+                grid-template-columns: 1fr;
+                row-gap: 2.5rem;
+            }
+            .header-divider {
+                width: 100%;
+                height: 1px;
+            }
+            .header-left {
+                position: static;
+                text-align: left;
+            }
+            .lightbox-nav {
+                width: 40px; height: 40px; font-size: 1.2rem;
+            }
+            #lightbox-prev { left: 10px; }
+            #lightbox-next { right: 10px; }
         }
 
         @media (max-width: 600px) {
             header { margin: 4rem auto 3.5rem auto; }
             header h1 { font-size: 3rem; }
+            .footer-contact { gap: 1rem; }
+            .footer-dot { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="fade-in">
         <div class="header-grid">
             <div class="header-left">
                 <div class="masthead-rule"></div>
@@ -411,75 +482,75 @@
         </div>
     </header>
 
-    <section class="portfolio-section">
+    <section class="portfolio-section fade-in">
         <p class="section-eyebrow">Trabalhos Selecionados</p>
         <div class="portfolio-grid">
 
-            <article class="book-item">
-                <div class="book-cover">
+            <article class="book-item fade-in">
+                <div class="book-cover" title="Ver Galeria">
                     <img src="BIC_CAPA.png" alt="Capa Bicentenário" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="miolo-gallery">
-                    <div class="miolo-page" title="Ampliar Página"><img src="BIC_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="BIC_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="BIC_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="BIC_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="BIC_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="BIC_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="BIC_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="BIC_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
                 </div>
                 <h3 class="book-title">Bicentenário da Independência do Brasil (1822-2022)</h3>
                 <span class="book-role">Projeto Gráfico e Diagramação</span>
             </article>
 
-            <article class="book-item">
-                <div class="book-cover">
+            <article class="book-item fade-in">
+                <div class="book-cover" title="Ver Galeria">
                     <img src="cti_capa.png" alt="Capa Ciência e Tecnologia" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="miolo-gallery">
-                    <div class="miolo-page" title="Ampliar Página"><img src="cti_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="cti_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="cti_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="cti_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="cti_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="cti_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="cti_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="cti_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
                 </div>
                 <h3 class="book-title">Ciência, tecnologia, inovação e o futuro de São Carlos</h3>
                 <span class="book-role">Diagramação e Montagem de Capa</span>
             </article>
 
-            <article class="book-item">
-                <div class="book-cover">
+            <article class="book-item fade-in">
+                <div class="book-cover" title="Ver Galeria">
                     <img src="dan_capa.png" alt="Capa Società Dante Alighieri" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="miolo-gallery">
-                    <div class="miolo-page" title="Ampliar Página"><img src="dan_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="dan_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="dan_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="dan_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="dan_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="dan_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="dan_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="dan_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
                 </div>
                 <h3 class="book-title">Società Dante Alighieri de São Carlos</h3>
                 <span class="book-role">Projeto Gráfico e Diagramação</span>
             </article>
 
-            <article class="book-item">
-                <div class="book-cover">
+            <article class="book-item fade-in">
+                <div class="book-cover" title="Ver Galeria">
                     <img src="ESP_CAPA.png" alt="Capa Presença Espanhola" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="miolo-gallery">
-                    <div class="miolo-page" title="Ampliar Página"><img src="ESP_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="ESP_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="ESP_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="ESP_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="ESP_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="ESP_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="ESP_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="ESP_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
                 </div>
                 <h3 class="book-title">A Presença Espanhola em São Carlos</h3>
                 <span class="book-role">Projeto Gráfico e Capa</span>
             </article>
 
-            <article class="book-item">
-                <div class="book-cover">
+            <article class="book-item fade-in">
+                <div class="book-cover" title="Ver Galeria">
                     <img src="SEN_CAPA.png" alt="Capa Da Senzala para Onde?" onerror="this.parentElement.style.display='none'">
                 </div>
                 <div class="miolo-gallery">
-                    <div class="miolo-page" title="Ampliar Página"><img src="SEN_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="SEN_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="SEN_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
-                    <div class="miolo-page" title="Ampliar Página"><img src="SEN_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="SEN_01.png" alt="Miolo 1" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="SEN_02.png" alt="Miolo 2" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="SEN_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
+                    <div class="miolo-page" title="Ver Galeria"><img src="SEN_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
                 </div>
                 <h3 class="book-title">Da Senzala para Onde? Negros e negras no pós-abolição</h3>
                 <span class="book-role">Projeto Gráfico e Diagramação</span>
@@ -489,10 +560,14 @@
     </section>
 
     <div id="lightbox">
+        <button id="lightbox-close" title="Fechar">&times;</button>
+        <button id="lightbox-prev" class="lightbox-nav" title="Anterior">&#10094;</button>
         <img id="lightbox-img" src="" alt="Ampliação da Imagem">
+        <button id="lightbox-next" class="lightbox-nav" title="Próximo">&#10095;</button>
+        <div id="lightbox-counter" class="lightbox-counter">1 / 5</div>
     </div>
 
-    <footer>
+    <footer class="fade-in">
         <div class="footer-contact">
             <a href="mailto:renato.aldrighi@gmail.com">renato.aldrighi@gmail.com</a>
             <span class="footer-dot"></span>
@@ -505,21 +580,111 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Animações de Scroll (Intersection Observer) ---
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+
+            // --- 2. Lógica do Lightbox (Carrossel Integrado) ---
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            const closeBtn = document.getElementById('lightbox-close');
+            const counter = document.getElementById('lightbox-counter');
+            
+            let currentImagesGroup = [];
+            let currentIndex = 0;
 
-            const images = document.querySelectorAll('.book-cover img, .miolo-page img');
-
-            images.forEach(img => {
-                img.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    lightboxImg.src = img.src;
-                    lightbox.style.display = 'flex';
+            // Agrupa as imagens por artigo/livro
+            const bookItems = document.querySelectorAll('.book-item');
+            
+            bookItems.forEach(item => {
+                // Pega a imagem da capa e as do miolo do mesmo projeto
+                const images = Array.from(item.querySelectorAll('img'));
+                
+                images.forEach((img, index) => {
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentImagesGroup = images;
+                        currentIndex = index;
+                        updateLightbox();
+                        lightbox.style.display = 'flex';
+                        // Previne rolagem do body quando lightbox aberto
+                        document.body.style.overflow = 'hidden'; 
+                    });
                 });
             });
 
-            lightbox.addEventListener('click', () => {
+            function updateLightbox() {
+                // Suaviza a transição da imagem
+                lightboxImg.style.opacity = '0';
+                setTimeout(() => {
+                    lightboxImg.src = currentImagesGroup[currentIndex].src;
+                    lightboxImg.style.opacity = '1';
+                }, 150);
+                
+                counter.innerText = `${currentIndex + 1} / ${currentImagesGroup.length}`;
+            }
+
+            function prevImage() {
+                currentIndex = (currentIndex - 1 + currentImagesGroup.length) % currentImagesGroup.length;
+                updateLightbox();
+            }
+
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % currentImagesGroup.length;
+                updateLightbox();
+            }
+
+            function closeLightbox() {
                 lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            // Event Listeners dos botões
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                prevImage();
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                nextImage();
+            });
+
+            closeBtn.addEventListener('click', closeLightbox);
+
+            // Fechar ao clicar no fundo escuro
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Navegação por teclado (Setas e Esc)
+            document.addEventListener('keydown', (e) => {
+                if (lightbox.style.display === 'flex') {
+                    if (e.key === 'ArrowLeft') prevImage();
+                    if (e.key === 'ArrowRight') nextImage();
+                    if (e.key === 'Escape') closeLightbox();
+                }
             });
         });
     </script>
