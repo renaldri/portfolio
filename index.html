@@ -36,26 +36,13 @@
             overflow-x: hidden;
         }
 
-        /* Textura sutil de papel/grão sobre todo o fundo */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.5;
-            mix-blend-mode: multiply;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.13  0 0 0 0 0.1  0 0 0 0 0.06  0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-        /* Leve vinheta radial para dar profundidade */
         body::after {
             content: "";
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(122, 46, 34, 0.05), transparent 55%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(122, 46, 34, 0.04), transparent 60%);
         }
 
         header, .tabs-nav, .tab-content, footer {
@@ -140,49 +127,17 @@
 
         .bio-text {
             color: var(--text-light);
-            font-size: 0.98rem;
-            font-weight: 400;
-            line-height: 1.75;
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.8;
             margin: 0;
             text-align: left;
             padding-top: 0.3rem;
+            max-width: 700px;
         }
 
-        .bio-topics {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .bio-topics li {
-            margin-bottom: 1.6rem;
-            padding-left: 1.7rem;
-            position: relative;
-        }
-
-        .bio-topics li:last-child {
-            margin-bottom: 0;
-        }
-
-        .bio-topics li::before {
-            content: "✦";
-            position: absolute;
-            left: 0;
-            top: 2px;
-            color: var(--accent);
-            font-size: 0.95rem;
-        }
-
-        .bio-topics strong {
-            display: block;
-            font-family: 'Fraunces', serif;
-            font-size: 1.3rem;
-            font-style: italic;
-            color: var(--text-main);
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-            line-height: 1.25;
-        }
+        .bio-text p { margin-bottom: 1.2rem; }
+        .bio-text p:last-child { margin-bottom: 0; }
 
         /* --- Navegação de Abas --- */
         .tabs-nav {
@@ -210,20 +165,14 @@
             transition: color 0.3s ease, border-color 0.3s ease;
         }
 
-        .tab-link:hover {
-            color: var(--text-main);
-        }
-
+        .tab-link:hover { color: var(--text-main); }
         .tab-link.active {
             color: var(--accent);
             border-bottom-color: var(--accent);
             font-style: italic;
         }
 
-        .tab-content {
-            display: none;
-        }
-
+        .tab-content { display: none; }
         .tab-content.active {
             display: block;
             animation: fadeInTab 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
@@ -243,7 +192,7 @@
             letter-spacing: 4px;
             color: var(--accent-soft);
             font-weight: 600;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
         }
 
         .section-eyebrow::before,
@@ -277,8 +226,8 @@
             background: var(--bg-card);
             padding: 10px;
             border: 1px solid var(--rule);
-            box-shadow: 0 18px 38px rgba(var(--shadow), 0.14);
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s ease;
+            box-shadow: 0 18px 38px rgba(var(--shadow), 0.10);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
             cursor: pointer;
             display: block;
         }
@@ -286,8 +235,8 @@
         .book-cover img { width: 100%; height: auto; display: block; }
 
         .book-item:hover .book-cover {
-            transform: translateY(-8px);
-            box-shadow: 0 28px 55px rgba(var(--shadow), 0.22);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(var(--shadow), 0.15);
             border-color: var(--accent-soft);
         }
 
@@ -304,18 +253,18 @@
             width: 65px;
             height: auto;
             background-color: var(--bg-card);
-            box-shadow: 0 4px 12px rgba(var(--shadow), 0.1);
+            box-shadow: 0 4px 12px rgba(var(--shadow), 0.08);
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease;
             border: 1px solid var(--rule);
         }
 
         .miolo-page img { width: 100%; height: auto; display: block; }
 
         .miolo-page:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--accent-soft);
-            box-shadow: 0 12px 24px rgba(var(--shadow), 0.2);
+            box-shadow: 0 10px 20px rgba(var(--shadow), 0.15);
         }
 
         .book-title {
@@ -334,9 +283,9 @@
             font-weight: 600;
         }
 
-        /* --- Artigos Científicos (Nova Aba) --- */
-        .artigos-section {
-            max-width: 1200px;
+        /* --- Portal do Cliente (Nova Aba) --- */
+        .portal-section {
+            max-width: 1000px;
             margin: 0 auto 6rem auto;
             padding: 0 2rem;
             display: flex;
@@ -344,109 +293,67 @@
             gap: 6rem;
         }
 
-        .article-showcase {
-            display: grid;
-            grid-template-columns: 35% 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-        
-        .article-info {
-            grid-column: 1 / -1;
+        .portal-intro {
             text-align: center;
-            margin-bottom: -1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            color: var(--text-light);
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.8;
         }
 
-        .article-thumbnails {
+        .portal-feature {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
 
-        .art-thumb {
+        .portal-feature:nth-child(even) {
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        .portal-feature:nth-child(even) .portal-image {
+            order: 2;
+        }
+
+        .portal-feature:nth-child(even) .portal-text {
+            order: 1;
+        }
+
+        .portal-image {
             width: 100%;
-            background: var(--bg-card);
             border: 1px solid var(--rule);
-            box-shadow: 0 4px 12px rgba(var(--shadow), 0.08);
-            cursor: zoom-in;
-            transition: transform 0.2s ease, border-color 0.3s ease;
+            box-shadow: 0 20px 45px rgba(var(--shadow), 0.12);
+            background: var(--bg-card);
+            border-radius: 4px;
+            overflow: hidden;
             display: block;
         }
-        
-        .art-thumb img {
+
+        .portal-image img {
             width: 100%;
             height: auto;
             display: block;
-            pointer-events: none; /* Deixa o evento de mouse apenas no container pai */
         }
 
-        .art-thumb:hover, .art-thumb.active {
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(var(--shadow), 0.15);
+        .portal-text h3 {
+            font-size: 2.2rem;
+            color: var(--text-main);
+            margin: 0 0 1rem 0;
+            line-height: 1.1;
         }
 
-        .article-viewer-wrapper {
-            position: relative;
-            background: var(--bg-card);
-            border: 1px solid var(--rule);
-            box-shadow: 0 18px 38px rgba(var(--shadow), 0.14);
-            height: 700px;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .portal-text p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.8;
+            margin: 0;
         }
 
-        .viewer-inner {
-            width: 100%;
-            height: 100%;
-            background-repeat: no-repeat;
-            background-position: center top;
-            background-size: contain;
-            /* Suaviza apenas o zoom e a troca de imagem, a posição acompanha o mouse em tempo real */
-            transition: background-size 0.3s ease-out; 
-        }
-
-        .viewer-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            background: rgba(34, 27, 18, 0.8);
-            padding: 8px 16px;
-            border-radius: 30px;
-            backdrop-filter: blur(4px);
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        .article-viewer-wrapper:hover .viewer-controls {
-            opacity: 1;
-        }
-
-        .viewer-btn {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 10px;
-            transition: transform 0.2s ease, color 0.2s ease;
-        }
-
-        .viewer-btn:hover {
-            transform: scale(1.2);
-            color: var(--rule);
-        }
-
-        /* --- Lightbox / Carrossel (Aba Inicial) --- */
+        /* --- Lightbox / Carrossel --- */
         #lightbox {
             display: none;
             position: fixed;
@@ -458,7 +365,7 @@
             z-index: 9999;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px);
         }
 
         #lightbox img {
@@ -468,7 +375,7 @@
             box-shadow: 0 25px 60px rgba(0,0,0,0.6);
             border-radius: 2px;
             user-select: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
         }
 
         .lightbox-nav {
@@ -490,8 +397,8 @@
         }
 
         .lightbox-nav:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.05);
         }
 
         #lightbox-prev { left: 30px; }
@@ -511,7 +418,7 @@
         }
 
         #lightbox-close:hover {
-            transform: scale(1.2);
+            transform: scale(1.1);
             color: var(--rule);
         }
 
@@ -574,14 +481,15 @@
 
         /* --- Responsividade --- */
         @media (max-width: 900px) {
-            .article-showcase {
+            .portal-feature, .portal-feature:nth-child(even) {
                 grid-template-columns: 1fr;
+                gap: 2.5rem;
             }
-            .article-thumbnails {
-                grid-template-columns: repeat(6, 1fr);
+            .portal-feature:nth-child(even) .portal-image {
+                order: 1;
             }
-            .article-viewer-wrapper {
-                height: 500px;
+            .portal-feature:nth-child(even) .portal-text {
+                order: 2;
             }
         }
 
@@ -603,10 +511,6 @@
             }
             #lightbox-prev { left: 10px; }
             #lightbox-next { right: 10px; }
-            
-            .article-thumbnails {
-                grid-template-columns: repeat(3, 1fr);
-            }
         }
 
         @media (max-width: 600px) {
@@ -630,24 +534,9 @@
             <div class="header-divider"></div>
             <div class="header-right">
                 <div class="bio-text">
-                    <ul class="bio-topics">
-                        <li>
-                            <strong>Da Matéria Bruta à Obra Publicada</strong>
-                            Com vasta experiência em editoração desde 2014, atuo na transformação de conteúdos complexos em livros, revistas e artigos científicos de alto padrão.
-                        </li>
-                        <li>
-                            <strong>Sinergia entre Estética e Técnica</strong>
-                            Meu foco une o rigor estético do projeto gráfico à precisão e otimização dos fluxos de diagramação, garantindo publicações visualmente marcantes e tecnicamente impecáveis.
-                        </li>
-                        <li>
-                            <strong>Tradição e Inovação no Fluxo Editorial</strong>
-                            Especialista em automação de processos — utilizando ferramentas avançadas como scripts, macros e GREP no Adobe InDesign e Microsoft Word —, reduzo prazos operacionais sem abrir mão da excelência tipográfica.
-                        </li>
-                        <li>
-                            <strong>Expertise Científica e Liderança</strong>
-                            Com um histórico que inclui 6 anos de atuação coordenando a diagramação em uma editora especializada em artigos científicos, compreendo a complexidade e o rigor do conteúdo acadêmico, o que me permite dialogar com autores e pesquisadores para entregar um design que respeita e eleva a narrativa da obra.
-                        </li>
-                    </ul>
+                    <p>Atuo desde 2014 com editoração, dedicando-me à criação de projetos gráficos e à diagramação de livros e publicações acadêmicas.</p>
+                    <p>Meu trabalho procura equilibrar o cuidado estético da tipografia com a precisão técnica. Para isso, utilizo recursos de automação — como scripts e expressões regulares (GREP) no Adobe InDesign — para otimizar os prazos e processos, entregando publicações funcionais, estruturadas e agradáveis à leitura.</p>
+                    <p>Além do design, disponibilizo aos clientes um sistema de gestão próprio para o envio de arquivos e acompanhamento da produção. Esse portal atende a projetos de livros e revistas, permitindo que o editor gerencie os arquivos e cada artigo em detalhes, evitando as comuns confusões e perdas de informações em trocas de e-mails.</p>
                 </div>
             </div>
         </div>
@@ -655,7 +544,7 @@
 
     <nav class="tabs-nav fade-in">
         <button class="tab-link active" data-target="tab-inicial">Livros e Projetos</button>
-        <button class="tab-link" data-target="tab-artigos">Artigos Científicos</button>
+        <button class="tab-link" data-target="tab-portal">Portal do Cliente</button>
     </nav>
 
     <main id="tab-inicial" class="tab-content active">
@@ -756,7 +645,7 @@
                         <div class="miolo-page" title="Ver Galeria"><img src="g32_03.png" alt="Miolo 3" onerror="this.style.display='none'"></div>
                         <div class="miolo-page" title="Ver Galeria"><img src="g32_04.png" alt="Miolo 4" onerror="this.style.display='none'"></div>
                     </div>
-                    <h3 class="book-title">A Guerra Civil de 1932 (Catálogo de exposição)</h3>
+                    <h3 class="book-title">A Guerra Civil de 1932 (Catálogo)</h3>
                     <span class="book-role">Projeto Gráfico e Diagramação</span>
                 </article>
 
@@ -779,60 +668,43 @@
         </section>
     </main>
 
-    <main id="tab-artigos" class="tab-content">
-        <section class="artigos-section">
-            <p class="section-eyebrow">Diagramação Científica</p>
+    <main id="tab-portal" class="tab-content">
+        <section class="portal-section">
+            <p class="section-eyebrow">Plataforma Exclusiva</p>
+            <p class="portal-intro fade-in">Para garantir a segurança e a organização dos materiais, disponibilizo um portal próprio para o envio e acompanhamento do processo editorial. Isso elimina a dependência de trocas de e-mails extensas e links temporários que expiram.</p>
             
-            <div class="article-showcase">
-                <div class="article-info">
-                    <h3 class="book-title">Brazilian Journal of Biology</h3>
-                    <span class="book-role">Projeto Gráfico, Padronização e Diagramação</span>
+            <article class="portal-feature fade-in">
+                <div class="portal-text">
+                    <h3>Painel do Editor<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Gestão de Livros</span></h3>
+                    <p>Ambiente focado para o editor ou coordenador acompanhar de perto a diagramação da obra. Permite baixar arquivos de prova em PDF, analisar diferentes opções de layout de capa e revisar o miolo completo através de apresentações interativas (Flipbook).</p>
                 </div>
-                
-                <div class="article-thumbnails">
-                    <div class="art-thumb" data-src="art_01.jpg"><img src="art_01.jpg" alt="Página 1" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_02.jpg"><img src="art_02.jpg" alt="Página 2" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_03.jpg"><img src="art_03.jpg" alt="Página 3" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_04.jpg"><img src="art_04.jpg" alt="Página 4" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_05.jpg"><img src="art_05.jpg" alt="Página 5" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_06.jpg"><img src="art_06.jpg" alt="Página 6" onerror="this.parentElement.style.display='none'"></div>
+                <div class="portal-image">
+                    <img src="portal.PNG" alt="Interface do painel de livros" onerror="this.parentElement.style.display='none'">
                 </div>
+            </article>
 
-                <div class="article-viewer-wrapper">
-                    <div class="viewer-inner"></div>
-                    
-                    <div class="viewer-controls">
-                        <button class="viewer-btn viewer-prev" title="Página Anterior">&#10094;</button>
-                        <button class="viewer-btn viewer-next" title="Próxima Página">&#10095;</button>
-                    </div>
+            <article class="portal-feature fade-in">
+                <div class="portal-image">
+                    <img src="portal_rev.PNG" alt="Interface do painel de revistas" onerror="this.parentElement.style.display='none'">
                 </div>
-            </div>
+                <div class="portal-text">
+                    <h3>Gestão de Periódicos<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Revistas Científicas</span></h3>
+                    <p>Visão unificada para edições que contêm dezenas de artigos. O sistema organiza pastas individuais automaticamente e fornece links de submissão únicos para cada autor, garantindo que nenhum documento da edição se perca durante a montagem.</p>
+                </div>
+            </article>
 
+            <article class="portal-feature fade-in">
+                <div class="portal-text">
+                    <h3>Área do Autor<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Submissão Direta</span></h3>
+                    <p>Uma interface limpa e simplificada para os autores. Permite enviar o texto original e imagens arrastando para a tela, acessar as provas diagramadas em PDF para conferência e fazer anotações com orientações que ficam salvas diretamente no projeto.</p>
+                </div>
+                <div class="portal-image">
+                    <img src="portal_autor.PNG" alt="Interface da área do autor" onerror="this.parentElement.style.display='none'">
+                </div>
+            </article>
 
-            <div class="article-showcase">
-                <div class="article-info">
-                    <h3 class="book-title">Brazilian initia</h3>
-                    <span class="book-role">Projeto Gráfico, Padronização e Diagramação</span>
-                </div>
-                
-                <div class="article-thumbnails">
-                    <div class="art-thumb" data-src="art_01.jpg"><img src="art_01.jpg" alt="Página 1" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_02.jpg"><img src="art_02.jpg" alt="Página 2" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_03.jpg"><img src="art_03.jpg" alt="Página 3" onerror="this.parentElement.style.display='none'"></div>
-                    <div class="art-thumb" data-src="art_04.jpg"><img src="art_04.jpg" alt="Página 4" onerror="this.parentElement.style.display='none'"></div>
-                </div>
-
-                <div class="article-viewer-wrapper">
-                    <div class="viewer-inner"></div>
-                    <div class="viewer-controls">
-                        <button class="viewer-btn viewer-prev" title="Página Anterior">&#10094;</button>
-                        <button class="viewer-btn viewer-next" title="Próxima Página">&#10095;</button>
-                    </div>
-                </div>
-            </div>
-            </section>
+        </section>
     </main>
-
 
     <div id="lightbox">
         <button id="lightbox-close" title="Fechar">&times;</button>
@@ -856,7 +728,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- 1. Animações de Scroll (Intersection Observer) ---
+            // --- 1. Animações de Scroll ---
             const faders = document.querySelectorAll('.fade-in');
             const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
 
@@ -869,7 +741,6 @@
             }, appearOptions);
 
             faders.forEach(fader => appearOnScroll.observe(fader));
-
 
             // --- 2. Lógica de Navegação de Abas ---
             const tabLinks = document.querySelectorAll('.tab-link');
@@ -893,97 +764,7 @@
                 });
             });
 
-
-            // --- 3. Lógica dos Artigos Científicos (Zoom e Transição) ---
-            const articleShowcases = document.querySelectorAll('.article-showcase');
-            
-            articleShowcases.forEach(showcase => {
-                const thumbs = showcase.querySelectorAll('.art-thumb');
-                const viewer = showcase.querySelector('.viewer-inner');
-                const btnPrev = showcase.querySelector('.viewer-prev');
-                const btnNext = showcase.querySelector('.viewer-next');
-                
-                let currentIndex = 0;
-                let isHovering = false;
-                let autoPlayTimer;
-
-                // Mostra a imagem normal (sem zoom)
-                function renderSlide(index) {
-                    if (thumbs.length === 0) return;
-                    thumbs.forEach(t => t.classList.remove('active'));
-                    thumbs[index].classList.add('active');
-                    
-                    const imgSrc = thumbs[index].getAttribute('data-src');
-                    viewer.style.backgroundImage = `url('${imgSrc}')`;
-                    viewer.style.backgroundSize = 'contain';
-                    viewer.style.backgroundPosition = 'center top';
-                    currentIndex = index;
-                }
-
-                function nextSlide() { renderSlide((currentIndex + 1) % thumbs.length); }
-                function prevSlide() { renderSlide((currentIndex - 1 + thumbs.length) % thumbs.length); }
-
-                function startAutoPlay() {
-                    autoPlayTimer = setInterval(() => {
-                        if(!isHovering) nextSlide();
-                    }, 3500);
-                }
-
-                function stopAutoPlay() { clearInterval(autoPlayTimer); }
-
-                // Botões do visualizador de artigo
-                btnPrev.addEventListener('click', () => { stopAutoPlay(); prevSlide(); startAutoPlay(); });
-                btnNext.addEventListener('click', () => { stopAutoPlay(); nextSlide(); startAutoPlay(); });
-
-                // Lógica de Zoom ao passar o mouse nas miniaturas
-                thumbs.forEach((thumb, idx) => {
-                    // Ao entrar na miniatura: pausa o carrossel, carrega imagem e ativa o Zoom
-                    thumb.addEventListener('mouseenter', (e) => {
-                        isHovering = true;
-                        stopAutoPlay();
-                        
-                        thumbs.forEach(t => t.classList.remove('active'));
-                        thumb.classList.add('active');
-                        
-                        const imgSrc = thumb.getAttribute('data-src');
-                        viewer.style.backgroundImage = `url('${imgSrc}')`;
-                        viewer.style.backgroundSize = '250%'; // Fator de Zoom
-                    });
-
-                    // Ao mover o mouse sobre a miniatura: calcula posição X/Y para o background-position do viewer
-                    thumb.addEventListener('mousemove', (e) => {
-                        const rect = thumb.getBoundingClientRect();
-                        // Calcula porcentagem do cursor relativa à miniatura
-                        const x = ((e.clientX - rect.left) / rect.width) * 100;
-                        const y = ((e.clientY - rect.top) / rect.height) * 100;
-                        
-                        // Atualiza a posição da imagem no lado direito para acompanhar o cursor
-                        viewer.style.backgroundPosition = `${x}% ${y}%`;
-                    });
-
-                    // Ao sair da miniatura: restaura para exibição normal e retoma carrossel
-                    thumb.addEventListener('mouseleave', () => {
-                        isHovering = false;
-                        renderSlide(currentIndex); // Volta pra visualização contida
-                        startAutoPlay();
-                    });
-
-                    // Clicar para pular para aquela página (mesmo sem hover)
-                    thumb.addEventListener('click', () => {
-                        currentIndex = idx;
-                        renderSlide(idx);
-                    });
-                });
-
-                // Inicializa primeiro artigo
-                if(thumbs.length > 0) {
-                    renderSlide(0);
-                    startAutoPlay();
-                }
-            });
-
-
-            // --- 4. Lógica do Lightbox (Galeria da Aba Inicial - Mantida Intacta) ---
+            // --- 3. Lógica do Lightbox ---
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const prevBtn = document.getElementById('lightbox-prev');
