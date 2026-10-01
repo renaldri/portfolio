@@ -143,13 +143,14 @@
         .tabs-nav {
             display: flex;
             justify-content: center;
-            gap: 3rem;
+            gap: 4rem;
             margin-bottom: 5rem;
             border-bottom: 1px solid var(--rule);
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
             padding: 0 2rem;
+            flex-wrap: wrap;
         }
 
         .tab-link {
@@ -283,24 +284,37 @@
             font-weight: 600;
         }
 
-        /* --- Portal do Cliente (Nova Aba) --- */
+        /* --- Portal do Cliente (Abas Livros e Revistas) --- */
         .portal-section {
             max-width: 1000px;
             margin: 0 auto 6rem auto;
             padding: 0 2rem;
             display: flex;
             flex-direction: column;
-            gap: 6rem;
+            gap: 5rem;
         }
 
         .portal-intro {
             text-align: center;
-            max-width: 700px;
-            margin: 0 auto 2rem auto;
+            max-width: 760px;
+            margin: 0 auto 1rem auto;
             color: var(--text-light);
             font-size: 1.05rem;
             font-weight: 300;
             line-height: 1.8;
+        }
+
+        .portal-category-header {
+            text-align: center;
+            margin: 1rem 0 2rem 0;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .portal-category-header h2 {
+            font-size: 2.6rem;
+            color: var(--text-main);
+            margin: 0 0 0.5rem 0;
         }
 
         .portal-feature {
@@ -314,12 +328,18 @@
             grid-template-columns: 1fr 1.2fr;
         }
 
-        .portal-feature:nth-child(even) .portal-image {
+        .portal-feature:nth-child(even) .portal-image-wrapper {
             order: 2;
         }
 
         .portal-feature:nth-child(even) .portal-text {
             order: 1;
+        }
+
+        .portal-image-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .portal-image {
@@ -330,24 +350,30 @@
             border-radius: 4px;
             overflow: hidden;
             display: block;
+            cursor: pointer;
         }
 
         .portal-image img {
             width: 100%;
             height: auto;
             display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .portal-image:hover img {
+            transform: scale(1.02);
         }
 
         .portal-text h3 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: var(--text-main);
             margin: 0 0 1rem 0;
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
         .portal-text p {
             color: var(--text-light);
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             font-weight: 300;
             line-height: 1.8;
             margin: 0;
@@ -485,11 +511,14 @@
                 grid-template-columns: 1fr;
                 gap: 2.5rem;
             }
-            .portal-feature:nth-child(even) .portal-image {
+            .portal-feature:nth-child(even) .portal-image-wrapper {
                 order: 1;
             }
             .portal-feature:nth-child(even) .portal-text {
                 order: 2;
+            }
+            .tabs-nav {
+                gap: 2rem;
             }
         }
 
@@ -536,17 +565,19 @@
                 <div class="bio-text">
                     <p>Atuo desde 2014 com editoração, dedicando-me à criação de projetos gráficos e à diagramação de livros e publicações acadêmicas.</p>
                     <p>Meu trabalho procura equilibrar o cuidado estético da tipografia com a precisão técnica. Para isso, utilizo recursos de automação — como scripts e expressões regulares (GREP) no Adobe InDesign — para otimizar os prazos e processos, entregando publicações funcionais, estruturadas e agradáveis à leitura.</p>
-                    <p>Além do design, disponibilizo aos clientes um sistema de gestão próprio para o envio de arquivos e acompanhamento da produção. Esse portal atende a projetos de livros e revistas, permitindo que o editor gerencie os arquivos e cada artigo em detalhes, evitando as comuns confusões e perdas de informações em trocas de e-mails.</p>
+                    <p>Além do design, disponibilizo aos clientes um sistema exclusivo que centraliza a troca de mensagens, envio de materiais e o acompanhamento de provas. Tudo ocorre em um único ambiente, eliminando ruídos e desencontros do e-mail tradicional.</p>
                 </div>
             </div>
         </div>
     </header>
 
     <nav class="tabs-nav fade-in">
-        <button class="tab-link active" data-target="tab-inicial">Livros e Projetos</button>
-        <button class="tab-link" data-target="tab-portal">Portal do Cliente</button>
+        <button class="tab-link active" data-target="tab-inicial">Portfólio</button>
+        <button class="tab-link" data-target="tab-portal-livros">Portal: Livros</button>
+        <button class="tab-link" data-target="tab-portal-revistas">Portal: Revistas</button>
     </nav>
 
+    <!-- ABA 1: PORTFÓLIO -->
     <main id="tab-inicial" class="tab-content active">
         <section class="portfolio-section fade-in">
             <p class="section-eyebrow">Trabalhos Selecionados</p>
@@ -668,41 +699,110 @@
         </section>
     </main>
 
-    <main id="tab-portal" class="tab-content">
+    <!-- ABA 2: PORTAL LIVROS -->
+    <main id="tab-portal-livros" class="tab-content">
         <section class="portal-section">
-            <p class="section-eyebrow">Plataforma Exclusiva</p>
-            <p class="portal-intro fade-in">Para garantir a segurança e a organização dos materiais, disponibilizo um portal próprio para o envio e acompanhamento do processo editorial. Isso elimina a dependência de trocas de e-mails extensas e links temporários que expiram.</p>
-            
+            <div class="portal-category-header fade-in">
+                <p class="section-eyebrow">Sistema Exclusivo de Gestão</p>
+                <h2>Portal do Editor: Livros</h2>
+                <p class="portal-intro">Uma experiência visual e fluida que acompanha a sua obra desde a entrega dos manuscritos até a aprovação da arte final. Diga adeus aos e-mails perdidos e links que expiram.</p>
+            </div>
+
+            <!-- Livros Feature 1: Mensagens e Upload -->
             <article class="portal-feature fade-in">
                 <div class="portal-text">
-                    <h3>Painel do Editor<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Gestão de Livros</span></h3>
-                    <p>Ambiente focado para o editor ou coordenador acompanhar de perto a diagramação da obra. Permite baixar arquivos de prova em PDF, analisar diferentes opções de layout de capa e revisar o miolo completo através de apresentações interativas (Flipbook).</p>
+                    <h3>Comunicação Centralizada<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Envio Direto</span></h3>
+                    <p>Envie originais, imagens de alta resolução e orientações de montagem em uma interface unificada. O histórico cronológico organiza o diálogo entre editor e diagramador com clareza absoluta.</p>
                 </div>
-                <div class="portal-image">
-                    <img src="portal.PNG" alt="Interface do painel de livros" onerror="this.parentElement.style.display='none'">
+                <div class="portal-image-wrapper">
+                    <div class="portal-image">
+                        <img src="livros01.PNG" alt="Painel de mensagens e envio de arquivos para livros" onerror="this.parentElement.style.display='none'">
+                    </div>
                 </div>
             </article>
 
+            <!-- Livros Feature 2: Provas e Flipbook -->
             <article class="portal-feature fade-in">
-                <div class="portal-image">
-                    <img src="portal_rev.PNG" alt="Interface do painel de revistas" onerror="this.parentElement.style.display='none'">
+                <div class="portal-image-wrapper">
+                    <div class="portal-image">
+                        <img src="livros02.PNG" alt="Painel de aprovação de PDF" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="portal-image">
+                        <img src="livros06.jpg" alt="Apresentação em Flipbook interativo" onerror="this.parentElement.style.display='none'">
+                    </div>
                 </div>
                 <div class="portal-text">
-                    <h3>Gestão de Periódicos<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Revistas Científicas</span></h3>
-                    <p>Visão unificada para edições que contêm dezenas de artigos. O sistema organiza pastas individuais automaticamente e fornece links de submissão únicos para cada autor, garantindo que nenhum documento da edição se perca durante a montagem.</p>
+                    <h3>Revisão Interativa<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Provas em PDF e Flipbook</span></h3>
+                    <p>Controle rigoroso do versionamento. Além do download tradicional em PDF de alta qualidade para revisão detalhada, acesse um modelo imersivo em Flipbook 3D para sentir o ritmo visual das páginas antes da impressão.</p>
                 </div>
             </article>
 
+            <!-- Livros Feature 3: Capas -->
             <article class="portal-feature fade-in">
                 <div class="portal-text">
-                    <h3>Área do Autor<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Submissão Direta</span></h3>
-                    <p>Uma interface limpa e simplificada para os autores. Permite enviar o texto original e imagens arrastando para a tela, acessar as provas diagramadas em PDF para conferência e fazer anotações com orientações que ficam salvas diretamente no projeto.</p>
+                    <h3>Galeria de Capas<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Escolha e Aprovação</span></h3>
+                    <p>Visualize as alternativas criadas para a capa da sua obra de forma estruturada. Clique para ampliar propostas, confira os mocapes de aplicação e tome a decisão final registrando sua aprovação direto na plataforma.</p>
                 </div>
-                <div class="portal-image">
-                    <img src="portal_autor.PNG" alt="Interface da área do autor" onerror="this.parentElement.style.display='none'">
+                <div class="portal-image-wrapper">
+                    <div class="portal-image">
+                        <img src="livros03.PNG" alt="Galeria de aprovação de capas no painel" onerror="this.parentElement.style.display='none'">
+                    </div>
+                    <div class="portal-image" style="display: flex; gap: 1rem; border: none; box-shadow: none; background: transparent;">
+                        <div class="portal-image" style="flex: 1;"><img src="livros05.jpg" alt="Visualização 3D da capa" onerror="this.parentElement.style.display='none'"></div>
+                        <div class="portal-image" style="flex: 1;"><img src="livros 04.jpg" alt="Arquivo de capa aberto para aprovação" onerror="this.parentElement.style.display='none'"></div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <!-- ABA 3: PORTAL REVISTAS -->
+    <main id="tab-portal-revistas" class="tab-content">
+        <section class="portal-section">
+            <div class="portal-category-header fade-in">
+                <p class="section-eyebrow">Sistema Institucional</p>
+                <h2>Gestão de Periódicos Científicos</h2>
+                <p class="portal-intro">Controle absoluto para edições seriadas. O sistema orquestra dezenas de artigos simultâneos, valida provas individualmente com os autores e garante o rigor técnico para o Editor Chefe.</p>
+            </div>
+
+            <!-- Revistas Feature 1: Visão do Editor -->
+            <article class="portal-feature fade-in">
+                <div class="portal-image-wrapper">
+                    <div class="portal-image">
+                        <img src="rev01.PNG" alt="Painel do Editor de Revista Científica" onerror="this.parentElement.style.display='none'">
+                    </div>
+                </div>
+                <div class="portal-text">
+                    <h3>Painel de Comando<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Controle Macro</span></h3>
+                    <p>Monitore o status de cada componente da edição em uma interface única. O painel gera pastas individuais automaticamente e permite criar links exclusivos de acesso para cada pesquisador, eliminando o caos de gerenciar submissões fragmentadas.</p>
                 </div>
             </article>
 
+            <!-- Revistas Feature 2: Área do Autor -->
+            <article class="portal-feature fade-in">
+                <div class="portal-text">
+                    <h3>Acesso Exclusivo para Autores<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Submissão Simplificada</span></h3>
+                    <p>Os pesquisadores acessam uma tela limpa e focada exclusivamente no seu próprio artigo. Por meio dela, podem anexar documentos, dialogar diretamente com o diagramador e editor e conferir o histórico de envios sem depender de intermediários.</p>
+                </div>
+                <div class="portal-image-wrapper">
+                    <div class="portal-image">
+                        <img src="rev02.PNG" alt="Área exclusiva do autor da revista" onerror="this.parentElement.style.display='none'">
+                    </div>
+                </div>
+            </article>
+
+            <!-- Revistas Feature 3: Fluxo Duplo de Aprovação -->
+            <article class="portal-feature fade-in">
+                <div class="portal-image-wrapper">
+                    <div class="portal-image">
+                        <img src="rev03.PNG" alt="Controle de aprovação dupla para artigos científicos" onerror="this.parentElement.style.display='none'">
+                    </div>
+                </div>
+                <div class="portal-text">
+                    <h3>Segurança Institucional<br><span style="font-size: 1.1rem; color: var(--accent); font-family: 'Inter', sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;">Aprovação Dupla</span></h3>
+                    <p>O rigor acadêmico é preservado. O sistema rastreia aprovações em duas etapas: registra a validação final do autor responsável pelo conteúdo e exige a chancela definitiva do Editor, protegendo a integridade técnica da publicação.</p>
+                </div>
+            </article>
         </section>
     </main>
 
@@ -775,10 +875,11 @@
             let currentImagesGroup = [];
             let lightBoxIndex = 0;
 
-            const bookItems = document.querySelectorAll('.book-item');
+            // Seleciona os itens de portfólio E os wrappers do portal
+            const interactiveGroups = document.querySelectorAll('.book-item, .portal-image-wrapper');
             
-            bookItems.forEach(item => {
-                const images = Array.from(item.querySelectorAll('img'));
+            interactiveGroups.forEach(group => {
+                const images = Array.from(group.querySelectorAll('img'));
                 
                 images.forEach((img, index) => {
                     img.addEventListener('click', (e) => {
